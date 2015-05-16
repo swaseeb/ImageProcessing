@@ -16,10 +16,10 @@ public class SpatialFilter {
     public static void main(String arg[]){
          BufferedImage imgOriginal=null;
          BufferedImage imgFiltered=null;
-         int[][] spatialFilter={{1,-1,1},{-1,9,-1},{-1,1,-1}};
+         int[][] spatialFilter={{-1,-1,-1},{-1,9,-1},{-1,-1,-1}};
         try {
             //Check this with Cat.jpg and img2.jpeg and see the Cat.png for the result
-            imgOriginal=ImageIO.read(new File("img2.jpeg"));
+            imgOriginal=ImageIO.read(new File("Cat.jpg"));
             int h=imgOriginal.getHeight();
             int w=imgOriginal.getWidth();
             int fm=spatialFilter.length-1;
@@ -48,8 +48,6 @@ public class SpatialFilter {
                     if(filterVlaue<0)filterVlaue=0;
                     imgFilteredRaster.setSample(i,j,0,filterVlaue);
                 }
-
-
             }
             ImageIO.write(imgFiltered, "png", new File("Cate.png"));
 

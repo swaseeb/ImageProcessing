@@ -18,7 +18,7 @@ public class ConvertToGrayScale {
     public ConvertToGrayScale() {
 
         try {
-            File input = new File("abc.jpg");
+            File input = new File("img2.jpeg");
             image = ImageIO.read(input);
             width = image.getWidth();
             height = image.getHeight();
@@ -39,7 +39,7 @@ public class ConvertToGrayScale {
                 }
             }
 
-            File ouptut = new File("grayscale.jpg");
+            File ouptut = new File("img2.jpg");
             ImageIO.write(image, "jpg", ouptut);
 
         } catch (Exception e) {}
