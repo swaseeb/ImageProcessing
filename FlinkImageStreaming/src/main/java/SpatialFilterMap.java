@@ -20,7 +20,7 @@ import java.util.Iterator;
 public class SpatialFilterMap implements MapFunction<BufferedImage,BufferedImage> {
 
     public BufferedImage map(BufferedImage image) throws Exception {
-       // ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        // ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
         //Iterator<?> readers = ImageIO.getImageReadersByFormatName("Cate3.jpg");
 
         //ImageIO is a class containing static methods for locating ImageReaders
