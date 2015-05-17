@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Created by shakirullah on 5/15/15.
  */
-public class ImageSourceFunction implements SourceFunction<byte []>{
+public  class ImageSourceFunction implements SourceFunction<BufferedImage>{
 
     private final  String path;
 
@@ -21,7 +21,7 @@ public class ImageSourceFunction implements SourceFunction<byte []>{
         this.path = path;
     }
 
-    public void invoke(Collector<byte[]> collector) throws Exception {
+    /*public void invoke(Collector<byte[]> collector) throws Exception {
         FileInputStream fis = new FileInputStream(new File(path));
         //create FileInputStream which obtains input bytes from a file in a file system
         //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
@@ -32,5 +32,12 @@ public class ImageSourceFunction implements SourceFunction<byte []>{
                 collector.collect(buf);
             }
 
+    }*/
+
+    public void invoke(Collector<BufferedImage> collector) throws Exception {
+        BufferedImage bi = ImageIO.read(new File(path));
+        //create FileInputStream which obtains input bytes from a file in a file system
+        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+        collector.collect(bi);
     }
 }

@@ -17,32 +17,32 @@ import java.util.Iterator;
 /**
  * Created by shakirullah on 5/16/15.
  */
-public class SpatialFilterMap implements MapFunction<byte[],BufferedImage> {
+public class SpatialFilterMap implements MapFunction<BufferedImage,BufferedImage> {
 
-    public BufferedImage map(byte[] bytes) throws Exception {
-        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        Iterator<?> readers = ImageIO.getImageReadersByFormatName("jpg");
+    public BufferedImage map(BufferedImage image) throws Exception {
+       // ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        //Iterator<?> readers = ImageIO.getImageReadersByFormatName("Cate3.jpg");
 
         //ImageIO is a class containing static methods for locating ImageReaders
         //and ImageWriters, and performing simple encoding and decoding.
-        ImageReader reader = (ImageReader) readers.next();
-        Object source = bis;
-        ImageInputStream iis = ImageIO.createImageInputStream(source);
-        reader.setInput(iis, true);
-        ImageReadParam param = reader.getDefaultReadParam();
+        //ImageReader reader = (ImageReader) readers.next();
+        //Object source = bis;
+        //ImageInputStream iis = ImageIO.createImageInputStream(source);
+        //reader.setInput(iis, true);
+        //ImageReadParam param = reader.getDefaultReadParam();
 
-        Image image = reader.read(0, param);
+        //Image image = reader.read(0, param);
         //got an image file
 
         BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
         //bufferedImage is the RenderedImage to be written
 
-        Graphics2D g2 = bufferedImage.createGraphics();
-        g2.drawImage(image, null, null);
+        //Graphics2D g2 = bufferedImage.createGraphics();
+        //g2.drawImage(image, null, null);
         BufferedImage imgOriginal=null;
         BufferedImage imgFiltered=null;
         int[][] spatialFilter={{-1,-1,-1},{-1,4,-1},{-1,-1,-1}};
-        imgOriginal = bufferedImage;
+        imgOriginal = image;
         int h = imgOriginal.getHeight();
         int w = imgOriginal.getWidth();
         int fm = spatialFilter.length - 1;

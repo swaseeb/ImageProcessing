@@ -41,7 +41,7 @@ public class ImageStreamExecutionEnvironment extends StreamExecutionEnvironment 
 		return createLocalEnvironment(defaultLocalDop);
 	}
 
-	public DataStreamSource<byte[]> readImageFile(String filePath) {
+	public DataStreamSource<BufferedImage> readImageFile(String filePath) {
 		checkIfFileExists(filePath);
 		return addSource(new ImageSourceFunction(filePath));
 	}
