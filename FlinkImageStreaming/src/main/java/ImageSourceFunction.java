@@ -1,43 +1,58 @@
+import org.apache.flink.api.java.tuple.Tuple;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.function.source.SourceFunction;
 import org.apache.flink.util.Collector;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by shakirullah on 5/15/15.
  */
-public  class ImageSourceFunction implements SourceFunction<BufferedImage>{
+public  class ImageSourceFunction implements SourceFunction<ImageStream>{
 
-    private final  String path;
+    //images directory or file
+    static File file;
 
-    public ImageSourceFunction(String path) {
-        this.path = path;
-    }
+    // array of supported extensions (use a List if you prefer)
+    static final String[] EXTENSIONS = new String[]{
+            "gif", "png", "bmp","jpg","jpeg" // and other formats you need
+    };
+    // filter to identify images based on their extensions
+    static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
-    /*public void invoke(Collector<byte[]> collector) throws Exception {
-        FileInputStream fis = new FileInputStream(new File(path));
-        //create FileInputStream which obtains input bytes from a file in a file system
-        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-            while (fis.read(buf)!= -1) {
-                //Writes to this byte array output stream
-                collector.collect(buf);
+        public boolean accept(final File dir, final String name) {
+            for (final String ext : EXTENSIONS) {
+                if (name.endsWith("." + ext)) {
+                    return (true);
+                }
             }
-
-    }*/
-
-    public void invoke(Collector<BufferedImage> collector) throws Exception {
-        BufferedImage bi = ImageIO.read(new File(path));
-        //create FileInputStream which obtains input bytes from a file in a file system
-        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
-        collector.collect(bi);
+            return (false);
+        }
+    };
+    public ImageSourceFunction(String path) {
+        this.file= new File(path);
     }
+
+    public void invoke(Collector<ImageStream> collector) throws Exception {
+
+
+        if (file.isDirectory()) { // make sure it's a directory
+            for (final File f : file.listFiles(IMAGE_FILTER)) {
+                System.out.println("Reading image: " + f.getName());
+                BufferedImage img=ImageIO.read(f);
+                collector.collect(new ImageStream(f.getName(),img));
+            }
+        }
+        else {
+            System.out.println("Reading image "+file.getName());
+            BufferedImage img=ImageIO.read(file);
+            collector.collect(new ImageStream(file.getName(),img));
+        }
+    }
+
 }
