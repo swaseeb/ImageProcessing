@@ -67,7 +67,6 @@ public class ImageFlatMap extends RichFlatMapFunction<ImageStream, ChunkImageStr
         gr.drawImage(imgSource, 0, 0, chunkWidth, chunkHeight, chunkWidth * startY, chunkHeight * startX, chunkWidth * startY + chunkWidth, chunkHeight * startX + chunkHeight, null);
         gr.dispose();
         System.out.println("Image row "+startX+" col "+startY+ " is created...");
-        ImageIO.write(imgsSmall, "PNG", new File("img/save/flatImages/" +  chunkWidth * startY+"_"+chunkHeight * startX + ".png"));
         collector.collect(new ChunkImageStream(imgName,imgSource.getWidth(),imgSource.getHeight(),chunkWidth * startY,chunkHeight * startX,imgsSmall));
     }
     public static void getUnfitSmallImage(BufferedImage imgSource,String imgName,String imgType,int startX,int startY,int chunkWidth,int chunkHeight,int unfitChunkWidth,int unfitChunkHeight,Collector<ChunkImageStream> collector){
